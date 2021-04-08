@@ -1,29 +1,5 @@
 
-
-
-# FROM php:8.0-cli
-# RUN apt-get update
-
-# # default node version with php docker image is 10.24 which is no loner supported with npm
-# # hence we need to add our own dependencies
-# RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-# RUN apt-get install npm
-# gives unmet depencencies: 
-#    nodejs : Conflicts: npm
-#    npm : Depends: node-gyp (>= 3.6.2~) but it is not going to be installed
-
-
-
-# FROM node:14
-# RUN apt-get update -y
-# RUN apt-get install -y php
-
-
-# FROM ubuntu:latest
 FROM php:8-apache
-# php8 -> debian 10
-# FROM node:14
-#node:14 -> debian 9
 RUN cat /etc/issue
 
 RUN docker-php-ext-install pdo pdo_mysql
@@ -31,25 +7,11 @@ RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
 RUN apt-get update && apt-get upgrade
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
-# RUN apt -y install software-properties-common
-# RUN add-apt-repository ppa:ondrej/php
-# RUN apt-get update
 
 RUN apt-get install -y nodejs
+RUN apt-get install -y git
 
-# RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
-# RUN nvm install node
-
-
-RUN node -v
-RUN npm -v
-# RUN apt-get install -y npm
-# RUN apt-get install -y php
-RUN php -v
-RUN npm -v
 RUN npm install -g npm
-RUN npm -v
-RUN node -v
 
 
 WORKDIR /app
@@ -57,22 +19,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 ADD ./ .
 
-RUN pwd
-RUN ls -al
-RUN ls resources
-RUN ls resources/views/
-
 RUN composer install
 RUN composer require laravel/ui --dev
 RUN php artisan ui react
 RUN npm install
 RUN npm run dev
 
-RUN php artisan migrate
-RUN php artisan db:seed
-
 CMD php artisan serve --host=0.0.0.0
-
 
 EXPOSE 8000
 
