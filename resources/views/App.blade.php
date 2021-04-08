@@ -19,8 +19,22 @@
                 font-family: 'Nunito', sans-serif;
             }
         </style>
+
+        <!-- Load echarts frontend libs from CDN to reduce local footprint -->
+        <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.2/dist/echarts.min.js"></script>
+
+        <script src='js/app.js'></script>
+
     </head>
     <body>
-        <h1 style="width: 100%; text-align: center; margin-top: 10%">Good luck! <br/> 頑張って ください</h1>
+        <div id="chart" style="width: 600px;height:400px;"></div>
+        <div id="table" style="width: 600px;height:400px;"></div>
+
+
+    <script type="text/javascript">
+
+    </script>
+
+
     </body>
 </html>

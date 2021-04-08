@@ -1,0 +1,47 @@
+
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile-dash
+    image: va-dash
+    container_name: va-dash
+    ports:
+      - 8000:8000
+    environment:
+      APP_ENV: 'Production'
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    links:
+      - db
+
+
+
+  # engine:
+  #   build:
+  #     context: .
+  #     dockerfile: ./img-engine/Dockerfile
+  #   image: img-engine
+  #   container_name: img-engine
+  #   ports:
+  #     - 5555:5555
+  #   volumes:
+  #     - ./img-store:/img-store
+  #   environment:
+  #     - APP_ENV=DockerProduction
+
